@@ -24,6 +24,7 @@ import baritone.api.event.events.SprintStateEvent;
 import baritone.api.event.events.type.EventState;
 import baritone.behavior.LookBehavior;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.world.entity.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Abilities;
 import org.spongepowered.asm.mixin.Mixin;
@@ -69,17 +70,19 @@ public class MixinClientPlayerEntity {
         return !baritone.getPathingBehavior().isPathing() && capabilities.mayfly;
     }
 
+    // aiStep no longer polls the sprint KeyMapping directly: as of 1.21 the pressed keys live in an
+    // immutable Input record, so the sprint state is read through Input.sprint() instead.
     @Redirect(
             method = "aiStep",
             at = @At(
                     value = "INVOKE",
-                    target = "net/minecraft/client/KeyMapping.isDown()Z"
+                    target = "Lnet/minecraft/world/entity/player/Input;sprint()Z"
             )
     )
-    private boolean isKeyDown(KeyMapping keyBinding) {
+    private boolean isKeyDown(Input keyPresses) {
         IBaritone baritone = BaritoneAPI.getProvider().getBaritoneForPlayer((LocalPlayer) (Object) this);
         if (baritone == null) {
-            return keyBinding.isDown();
+            return keyPresses.sprint();
         }
         SprintStateEvent event = new SprintStateEvent();
         baritone.getGameEventHandler().onPlayerSprintState(event);
@@ -90,7 +93,7 @@ public class MixinClientPlayerEntity {
             // hitting control shouldn't make all bots sprint
             return false;
         }
-        return keyBinding.isDown();
+        return keyPresses.sprint();
     }
 
     @Inject(

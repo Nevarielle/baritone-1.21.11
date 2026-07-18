@@ -32,6 +32,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
@@ -80,14 +81,14 @@ public abstract class MixinLivingEntity extends Entity {
         return self.getYRot();
     }
 
+    // Elytra movement moved out of travel() into the private updateFallFlyingMovement(Vec3) in
+    // 1.21.11, which is the only place that still reads getLookAngle(). Bracketing that method is
+    // the equivalent of the old pair of hooks around the look angle and the subsequent move().
     @Inject(
-            method = "travel",
-            at = @At(
-                    value = "INVOKE",
-                    target = "net/minecraft/world/entity/LivingEntity.getLookAngle()Lnet/minecraft/world/phys/Vec3;"
-            )
+            method = "updateFallFlyingMovement",
+            at = @At("HEAD")
     )
-    private void onPreElytraMove(Vec3 direction, CallbackInfo ci) {
+    private void onPreElytraMove(Vec3 direction, CallbackInfoReturnable<Vec3> cir) {
         this.getBaritone().ifPresent(baritone -> {
             this.elytraRotationEvent = new RotationMoveEvent(RotationMoveEvent.Type.MOTION_UPDATE, this.getYRot(), this.getXRot());
             baritone.getGameEventHandler().onPlayerRotationMove(this.elytraRotationEvent);
@@ -97,14 +98,10 @@ public abstract class MixinLivingEntity extends Entity {
     }
 
     @Inject(
-            method = "travel",
-            at = @At(
-                    value = "INVOKE",
-                    target = "net/minecraft/world/entity/LivingEntity.move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
-                    shift = At.Shift.AFTER
-            )
+            method = "updateFallFlyingMovement",
+            at = @At("RETURN")
     )
-    private void onPostElytraMove(Vec3 direction, CallbackInfo ci) {
+    private void onPostElytraMove(Vec3 direction, CallbackInfoReturnable<Vec3> cir) {
         if (this.elytraRotationEvent != null) {
             this.setYRot(this.elytraRotationEvent.getOriginal().getYaw());
             this.setXRot(this.elytraRotationEvent.getOriginal().getPitch());
