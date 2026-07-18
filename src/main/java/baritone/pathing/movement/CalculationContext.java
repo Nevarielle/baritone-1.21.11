@@ -17,6 +17,7 @@
 
 package baritone.pathing.movement;
 
+import baritone.utils.EnchantmentUtils;
 import baritone.Baritone;
 import baritone.api.IBaritone;
 import baritone.api.pathing.movement.ActionCosts;

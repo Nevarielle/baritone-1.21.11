@@ -167,13 +167,13 @@ public final class ChunkPacker {
                 return Blocks.LAVA.defaultBlockState();
             case SOLID:
                 // Dimension solid types
-                if (dimension.natural()) {
+                if (dimension.hasSkyLight()) { // overworld
                     return Blocks.STONE.defaultBlockState();
                 }
-                if (dimension.ultraWarm()) {
+                if (dimension.hasCeiling()) { // nether
                     return Blocks.NETHERRACK.defaultBlockState();
                 }
-                if (dimension.effectsLocation().equals(BuiltinDimensionTypes.END_EFFECTS)) {
+                { // end (neither skylight nor ceiling)
                     return Blocks.END_STONE.defaultBlockState();
                 }
             default:

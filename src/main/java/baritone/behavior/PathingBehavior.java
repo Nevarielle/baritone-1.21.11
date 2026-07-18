@@ -158,7 +158,7 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
                     queuePathEvent(PathEvent.AT_GOAL);
                     next = null;
                     if (Baritone.settings().disconnectOnArrival.value) {
-                        ctx.world().disconnect();
+                        ctx.minecraft().level.disconnect(net.minecraft.network.chat.Component.literal("Baritone: disconnectOnArrival"));
                     }
                     return;
                 }

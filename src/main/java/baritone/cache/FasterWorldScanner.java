@@ -172,16 +172,16 @@ public enum FasterWorldScanner implements IWorldScanner {
         int j = playerSection;
         for (; i >= 0 || j < l; ++j, --i) {
             if (j < l) {
-                visitSection(lookup, sections[j], blocks, chunkX, chunkZ);
+                visitSection(lookup, sections[j], blocks, chunkX, chunkZ, chunk.getSectionYFromSectionIndex(j) * 16);
             }
             if (i >= 0) {
-                visitSection(lookup, sections[i], blocks, chunkX, chunkZ);
+                visitSection(lookup, sections[i], blocks, chunkX, chunkZ, chunk.getSectionYFromSectionIndex(i) * 16);
             }
         }
         return blocks;
     }
 
-    private void visitSection(BlockOptionalMetaLookup lookup, LevelChunkSection section, List<BlockPos> blocks, long chunkX, long chunkZ) {
+    private void visitSection(BlockOptionalMetaLookup lookup, LevelChunkSection section, List<BlockPos> blocks, long chunkX, long chunkZ, int yOffset) {
         if (section == null || section.hasOnlyAir()) {
             return;
         }
@@ -192,7 +192,6 @@ public enum FasterWorldScanner implements IWorldScanner {
             return;
         }
 
-        int yOffset = section.bottomBlockY();
         Palette<BlockState> palette = ((IPalettedContainer<BlockState>) sectionContainer).getPalette();
 
         if (palette instanceof SingleValuePalette) {
@@ -290,7 +289,7 @@ public enum FasterWorldScanner implements IWorldScanner {
             return PALETTE_REGISTRY_SENTINEL;
         } else {
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-            palette.write(buf);
+            palette.write(buf, Block.BLOCK_STATE_REGISTRY);
             int size = buf.readVarInt();
             BlockState[] states = new BlockState[size];
             for (int i = 0; i < size; i++) {

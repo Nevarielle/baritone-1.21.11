@@ -209,7 +209,7 @@ public final class PathRenderer implements IRenderer {
 
         positions.forEach(pos -> {
             BlockState state = bsi.get0(pos);
-            VoxelShape shape = state.getShape(player.level, pos);
+            VoxelShape shape = state.getShape(player.level(), pos);
             AABB toDraw = shape.isEmpty() ? Shapes.block().bounds() : shape.bounds();
             toDraw = toDraw.move(pos);
             IRenderer.emitAABB(stack, toDraw, .002D);
@@ -260,40 +260,11 @@ public final class PathRenderer implements IRenderer {
             minY = ctx.world().getMinY();
             maxY = ctx.world().getMaxY();
 
-            if (settings.renderGoalXZBeacon.value) {
-                //TODO: check
-                textureManager.bindForSetup(TEXTURE_BEACON_BEAM);
-                if (settings.renderGoalIgnoreDepth.value) {
-                    RenderSystem.disableDepthTest();
-                }
-
-                stack.pushPose(); // push
-                stack.translate(goalPos.getX() - renderPosX, -renderPosY, goalPos.getZ() - renderPosZ); // translate
-
-                //TODO: check
-                BeaconRenderer.renderBeaconBeam(
-                        stack,
-                        ctx.minecraft().renderBuffers().bufferSource(),
-                        TEXTURE_BEACON_BEAM,
-                        settings.renderGoalAnimated.value ? partialTicks : 0,
-                        1.0F,
-                        settings.renderGoalAnimated.value ? ctx.world().getGameTime() : 0,
-                        (int) minY,
-                        (int) maxY,
-                        color.getColorComponents(null),
-
-                        // Arguments filled by the private method lol
-                        0.2F,
-                        0.25F
-                );
-
-                stack.popPose(); // pop
-
-                if (settings.renderGoalIgnoreDepth.value) {
-                    RenderSystem.enableDepthTest();
-                }
-                return;
-            }
+            // TODO(1.21.11): the beacon beam for renderGoalXZBeacon is disabled.
+            // BeaconRenderer.renderBeaconBeam was replaced by submitBeaconBeam, which draws through
+            // the deferred SubmitNodeCollector pipeline and no longer takes a colour. Wiring a
+            // collector up from Baritone's render event needs its own pass; until then the goal
+            // still renders as the regular box below.
 
             minX = goalPos.getX() + 0.002 - renderPosX;
             maxX = goalPos.getX() + 1 - 0.002 - renderPosX;

@@ -99,7 +99,7 @@ public final class LitematicaSchematic extends CompositeSchematic implements ISt
 
         for (Object key : properties.keySet()) {
             Property<?> property = block.getStateDefinition().getProperty((String) key);
-            String propertyValue = properties.getString((String) key);
+            String propertyValue = properties.getStringOr((String) key, "");
             if (property != null) {
                 blockState = setPropertyValue(blockState, property, propertyValue);
             }
@@ -161,7 +161,7 @@ public final class LitematicaSchematic extends CompositeSchematic implements ISt
 
             int bitsPerBlock = getBitsPerBlock(usedBlockTypes.size());
             long regionVolume = getVolume(subReg);
-            long[] blockStateArray = subReg.getLongArray("BlockStates");
+            long[] blockStateArray = subReg.getLongArray("BlockStates").orElse(new long[0]);
 
             LitematicaBitArray bitArray = new LitematicaBitArray(bitsPerBlock, regionVolume, blockStateArray);
             writeSubregionIntoSchematic(subReg, offsetMinCorner, blockList, bitArray);

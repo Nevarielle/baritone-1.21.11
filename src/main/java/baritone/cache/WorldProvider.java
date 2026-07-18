@@ -110,7 +110,7 @@ public class WorldProvider implements IWorldProvider {
     }
 
     private Path getWorldDataDirectory(Path parent, Level world) {
-        Identifier dimId = world.dimension().location();
+        Identifier dimId = world.dimension().identifier();
         int height = world.dimensionType().logicalHeight();
         return parent.resolve(dimId.getNamespace()).resolve(dimId.getPath() + "_" + height);
     }
@@ -140,7 +140,7 @@ public class WorldProvider implements IWorldProvider {
             String folderName;
             final ServerData serverData = ctx.minecraft().getCurrentServer();
             if (serverData != null) {
-                folderName = ctx.minecraft().isConnectedToRealms() ? "realms" : serverData.ip;
+                folderName = serverData.isRealm() ? "realms" : serverData.ip;
             } else {
                 //replaymod causes null currentServer and false singleplayer.
                 System.out.println("World seems to be a replay. Not loading Baritone cache.");
