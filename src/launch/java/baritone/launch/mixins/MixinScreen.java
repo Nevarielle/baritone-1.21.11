@@ -21,14 +21,14 @@ import baritone.api.BaritoneAPI;
 import baritone.api.IBaritone;
 import baritone.api.event.events.ChatEvent;
 import baritone.utils.accessor.IGuiScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Style;
+import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.net.URI;
 
@@ -37,20 +37,26 @@ import static baritone.api.command.IBaritoneChatControl.FORCE_COMMAND_PREFIX;
 @Mixin(Screen.class)
 public abstract class MixinScreen implements IGuiScreen {
 
+    /**
+     * {@code openLink} was replaced by the static {@code clickUrlAction} in 1.21.
+     */
+    @Invoker("clickUrlAction")
+    static boolean invokeClickUrlAction(Minecraft minecraft, Screen screen, URI uri) {
+        throw new AssertionError();
+    }
+
     @Override
-    @Invoker("openLink")
-    public abstract void openLinkInvoker(URI url);
+    public void openLinkInvoker(URI url) {
+        invokeClickUrlAction(Minecraft.getInstance(), (Screen) (Object) this, url);
+    }
 
-
-    //TODO: switch to enum extention with mixin 9.0 or whenever Mumfrey gets around to it
-    @Inject(at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;)V", remap = false, ordinal = 1), method = "handleComponentClicked", cancellable = true)
-    public void handleCustomClickEvent(Style style, CallbackInfoReturnable<Boolean> cir) {
-        // ClickEvent became a sealed interface of records in 1.21, so the command lives on the
-        // RunCommand variant rather than a generic getValue().
-        if (!(style.getClickEvent() instanceof ClickEvent.RunCommand runCommand)) {
-            return;
-        }
-        String command = runCommand.command();
+    /**
+     * Chat click handling was restructured in 1.21: {@code handleComponentClicked(Style)} is gone and
+     * a {@link net.minecraft.network.chat.ClickEvent.RunCommand} is now dispatched straight to
+     * {@code clickCommandAction}. Intercept it there so Baritone's own commands never reach the server.
+     */
+    @Inject(method = "clickCommandAction", at = @At("HEAD"), cancellable = true)
+    private static void handleCustomClickEvent(LocalPlayer player, String command, Screen screen, CallbackInfo ci) {
         if (command == null || !command.startsWith(FORCE_COMMAND_PREFIX)) {
             return;
         }
@@ -58,7 +64,6 @@ public abstract class MixinScreen implements IGuiScreen {
         if (baritone != null) {
             baritone.getGameEventHandler().onSendChatMessage(new ChatEvent(command));
         }
-        cir.setReturnValue(true);
-        cir.cancel();
+        ci.cancel();
     }
 }
