@@ -20,28 +20,43 @@ package baritone.utils;
 import baritone.api.BaritoneAPI;
 import baritone.api.Settings;
 import baritone.utils.accessor.IEntityRenderManager;
-import com.mojang.blaze3d.opengl.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 
 import java.awt.*;
 
+/**
+ * Line rendering for 1.21.11.
+ * <p>
+ * The old immediate-mode path (Tesselator/BufferBuilder plus manual shader and GL state juggling)
+ * was removed upstream, so drawing now goes through the shared {@link MultiBufferSource} using the
+ * vanilla {@code lines} render type. Vertices are appended between {@link #startLines} and
+ * {@link #endLines}, which flushes the batch.
+ */
 public interface IRenderer {
 
-    Tesselator tessellator = Tesselator.getInstance();
-    BufferBuilder buffer = tessellator.getBuilder();
     IEntityRenderManager renderManager = (IEntityRenderManager) Minecraft.getInstance().getEntityRenderDispatcher();
     TextureManager textureManager = Minecraft.getInstance().getTextureManager();
     Settings settings = BaritoneAPI.getSettings();
 
     float[] color = new float[]{1.0F, 1.0F, 1.0F, 255.0F};
+
+    /**
+     * Holds the buffer that the {@code emit*} calls are currently writing into. Interface fields are
+     * implicitly final, so the mutable state lives in this holder.
+     */
+    Batch batch = new Batch();
+
+    final class Batch {
+        MultiBufferSource.BufferSource source;
+        VertexConsumer consumer;
+    }
 
     static void glColor(Color color, float alpha) {
         float[] colorComponents = color.getColorComponents(null);
@@ -52,24 +67,13 @@ public interface IRenderer {
     }
 
     static void startLines(Color color, float alpha, float lineWidth, boolean ignoreDepth) {
-        RenderSystem.enableBlend();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderSystem.blendFuncSeparate(
-                GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO
-        );
         glColor(color, alpha);
-        RenderSystem.lineWidth(lineWidth);
-        RenderSystem.depthMask(false);
-        RenderSystem.disableCull();
 
-        if (ignoreDepth) {
-            RenderSystem.disableDepthTest();
-        }
-        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
-        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+        // TODO(1.21.11): ignoreDepth (drawing paths through walls) is not honoured yet. Depth
+        // testing is now baked into the RenderPipeline behind a RenderType, so restoring it needs a
+        // custom no-depth-test pipeline rather than a RenderSystem call.
+        batch.source = Minecraft.getInstance().renderBuffers().bufferSource();
+        batch.consumer = batch.source.getBuffer(RenderTypes.lines());
     }
 
     static void startLines(Color color, float lineWidth, boolean ignoreDepth) {
@@ -77,14 +81,11 @@ public interface IRenderer {
     }
 
     static void endLines(boolean ignoredDepth) {
-        tessellator.end();
-        if (ignoredDepth) {
-            RenderSystem.enableDepthTest();
+        if (batch.source != null) {
+            batch.source.endBatch(RenderTypes.lines());
         }
-
-        RenderSystem.enableCull();
-        RenderSystem.depthMask(true);
-        RenderSystem.disableBlend();
+        batch.consumer = null;
+        batch.source = null;
     }
 
     static void emitLine(PoseStack stack, double x1, double y1, double z1, double x2, double y2, double z2) {
@@ -115,11 +116,17 @@ public interface IRenderer {
                          float x1, float y1, float z1,
                          float x2, float y2, float z2,
                          float nx, float ny, float nz) {
-        final Matrix4f matrix4f = stack.last().pose();
-        final Matrix3f normal = stack.last().normal();
+        if (batch.consumer == null) {
+            return;
+        }
+        final PoseStack.Pose pose = stack.last();
 
-        buffer.vertex(matrix4f, x1, y1, z1).color(color[0], color[1], color[2], color[3]).normal(normal, nx, ny, nz).endVertex();
-        buffer.vertex(matrix4f, x2, y2, z2).color(color[0], color[1], color[2], color[3]).normal(normal, nx, ny, nz).endVertex();
+        batch.consumer.addVertex(pose, x1, y1, z1)
+                .setColor(color[0], color[1], color[2], color[3])
+                .setNormal(pose, nx, ny, nz);
+        batch.consumer.addVertex(pose, x2, y2, z2)
+                .setColor(color[0], color[1], color[2], color[3])
+                .setNormal(pose, nx, ny, nz);
     }
 
     static void emitAABB(PoseStack stack, AABB aabb) {
@@ -152,5 +159,4 @@ public interface IRenderer {
         double vpZ = renderManager.renderPosZ();
         emitLine(stack, start.x - vpX, start.y - vpY, start.z - vpZ, end.x - vpX, end.y - vpY, end.z - vpZ);
     }
-
 }
