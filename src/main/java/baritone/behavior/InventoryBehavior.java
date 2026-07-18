@@ -92,7 +92,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
         // we're using 0 and 8 for pickaxe and throwaway
         ArrayList<Integer> candidates = new ArrayList<>();
         for (int i = 1; i < 8; i++) {
-            if (ctx.player().getInventory().items.get(i).isEmpty() && !disallowedHotbar.test(i)) {
+            if (ctx.player().getInventory().getNonEquipmentItems().get(i).isEmpty() && !disallowedHotbar.test(i)) {
                 candidates.add(i);
             }
         }
@@ -126,7 +126,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
     }
 
     private int firstValidThrowaway() { // TODO offhand idk
-        NonNullList<ItemStack> invy = ctx.player().getInventory().items;
+        NonNullList<ItemStack> invy = ctx.player().getInventory().getNonEquipmentItems();
         for (int i = 0; i < invy.size(); i++) {
             if (Baritone.settings().acceptableThrowawayItems.value.contains(invy.get(i).getItem())) {
                 return i;
@@ -136,7 +136,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
     }
 
     private int bestToolAgainst(Block against, Class<? extends DiggerItem> cla$$) {
-        NonNullList<ItemStack> invy = ctx.player().getInventory().items;
+        NonNullList<ItemStack> invy = ctx.player().getInventory().getNonEquipmentItems();
         int bestInd = -1;
         double bestSpeed = -1;
         for (int i = 0; i < invy.size(); i++) {
@@ -189,7 +189,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
 
     public boolean throwaway(boolean select, Predicate<? super ItemStack> desired, boolean allowInventory) {
         LocalPlayer p = ctx.player();
-        NonNullList<ItemStack> inv = p.getInventory().items;
+        NonNullList<ItemStack> inv = p.getInventory().getNonEquipmentItems();
         for (int i = 0; i < 9; i++) {
             ItemStack item = inv.get(i);
             // this usage of settings() is okay because it's only called once during pathing
@@ -199,7 +199,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
             // acceptableThrowawayItems to the CalculationContext
             if (desired.test(item)) {
                 if (select) {
-                    p.getInventory().selected = i;
+                    p.getInventory().setSelectedSlot(i);
                 }
                 return true;
             }
@@ -214,7 +214,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
                 ItemStack item = inv.get(i);
                 if (item.isEmpty() || item.getItem() instanceof PickaxeItem) {
                     if (select) {
-                        p.getInventory().selected = i;
+                        p.getInventory().setSelectedSlot(i);
                     }
                     return true;
                 }
@@ -226,7 +226,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
                 if (desired.test(inv.get(i))) {
                     if (select) {
                         requestSwapWithHotBar(i, 7);
-                        p.getInventory().selected = 7;
+                        p.getInventory().setSelectedSlot(7);
                     }
                     return true;
                 }

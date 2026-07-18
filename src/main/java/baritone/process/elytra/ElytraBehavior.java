@@ -1306,7 +1306,7 @@ public final class ElytraBehavior implements Helper {
     }
 
     private int findGoodElytra() {
-        NonNullList<ItemStack> invy = ctx.player().getInventory().items;
+        NonNullList<ItemStack> invy = ctx.player().getInventory().getNonEquipmentItems();
         for (int i = 0; i < invy.size(); i++) {
             ItemStack slot = invy.get(i);
             if (slot.getItem() == Items.ELYTRA && (slot.getItem().getMaxDamage() - slot.getDamageValue()) > Baritone.settings().elytraMinimumDurability.value) {
@@ -1361,8 +1361,8 @@ public final class ElytraBehavior implements Helper {
     }
 
     public boolean raytrace(double startX, double startY, double startZ, double endX, double endY, double endZ) {
-        final int maxHeight = npfContext.getMaxHeight() + ctx.world().getMinBuildHeight();
-        final int minHeight = ctx.world().getMinBuildHeight();
+        final int maxHeight = npfContext.getMaxHeight() + ctx.world().getMinY();
+        final int minHeight = ctx.world().getMinY();
         final boolean isOOB = startY >= maxHeight || endY >= maxHeight || startY < minHeight || endY < minHeight;
         if (isOOB) {
             Vec3 start = new Vec3(startX, startY, startZ);
@@ -1374,8 +1374,8 @@ public final class ElytraBehavior implements Helper {
     }
 
     public boolean raytrace(Vec3 start, Vec3 end) {
-        final int maxHeight = npfContext.getMaxHeight() + ctx.world().getMinBuildHeight();
-        final int minHeight = ctx.world().getMinBuildHeight();
+        final int maxHeight = npfContext.getMaxHeight() + ctx.world().getMinY();
+        final int minHeight = ctx.world().getMinY();
         final boolean isOOB = start.y >= maxHeight || end.y >= maxHeight || start.y < minHeight || end.y < minHeight;
         if (isOOB) {
             return ctx.world().clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, ctx.player())).getType() == HitResult.Type.MISS;
@@ -1387,12 +1387,12 @@ public final class ElytraBehavior implements Helper {
         if (src.length != count * 3 || src.length != dst.length) {
             throw new IllegalArgumentException("Expected source and dst to have length of " + (count * 3));
         }
-        final int maxHeight = npfContext.getMaxHeight() + ctx.world().getMinBuildHeight();
+        final int maxHeight = npfContext.getMaxHeight() + ctx.world().getMinY();
 
         boolean isOOB = false;
         for(int i = 1; i < src.length; i += 3) {
-            if (src[i] >= maxHeight || src[i] < ctx.world().getMinBuildHeight() ||
-                    dst[i] >= maxHeight || dst[i] < ctx.world().getMinBuildHeight()) {
+            if (src[i] >= maxHeight || src[i] < ctx.world().getMinY() ||
+                    dst[i] >= maxHeight || dst[i] < ctx.world().getMinY()) {
                 isOOB = true;
                 break;
             }
@@ -1413,7 +1413,7 @@ public final class ElytraBehavior implements Helper {
     }
 
     public boolean passable(int x, int y, int z) {
-        if(y >= ctx.world().getMaxBuildHeight() || y < ctx.world().getMinBuildHeight()) {
+        if(y >= ctx.world().getMaxY() || y < ctx.world().getMinY()) {
             return true;
         }
         return npfContext.passable(x, y, z);

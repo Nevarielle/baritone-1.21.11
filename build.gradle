@@ -101,6 +101,8 @@ allprojects {
 
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = "UTF-8"
+        // Report the whole error list during the 1.21.11 migration instead of javac's default cap of 100.
+        it.options.compilerArgs += ["-Xmaxerrs", "2000"]
 
         def targetVersion = project.java_version.toInteger()
         if (JavaVersion.current().isJava9Compatible()) {

@@ -156,7 +156,7 @@ public enum FasterWorldScanner implements IWorldScanner {
         long chunkX = (long) pos.x << 4;
         long chunkZ = (long) pos.z << 4;
 
-        int playerSectionY = (ctx.playerFeet().y - ctx.world().getMinBuildHeight()) >> 4;
+        int playerSectionY = (ctx.playerFeet().y - ctx.world().getMinY()) >> 4;
 
         return collectChunkSections(lookup, chunkProvider.getChunk(pos.x, pos.z, false), chunkX, chunkZ, playerSectionY).stream();
     }

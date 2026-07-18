@@ -260,7 +260,7 @@ public class ElytraProcess extends BaritoneProcessHelper implements IBaritonePro
         }
 
         if (this.state == State.FLYING || this.state == State.START_FLYING) {
-            this.state = ctx.player().isOnGround() && Baritone.settings().elytraAutoJump.value
+            this.state = ctx.player().onGround() && Baritone.settings().elytraAutoJump.value
                     ? State.LOCATE_JUMP
                     : State.START_FLYING;
         }
@@ -476,7 +476,7 @@ public class ElytraProcess extends BaritoneProcessHelper implements IBaritonePro
             return true;
         }
 
-        NonNullList<ItemStack> inv = ctx.player().getInventory().items;
+        NonNullList<ItemStack> inv = ctx.player().getInventory().getNonEquipmentItems();
         int qty = 0;
         for (int i = 0; i < 36; i++) {
             if (ElytraBehavior.isFireworks(inv.get(i))) {

@@ -116,7 +116,7 @@ public class ToolSet {
         possible, this lets us make pathing depend on the actual tool to be used (if auto tool is disabled)
         */
         if (!Baritone.settings().autoTool.value && pathingCalculation) {
-            return player.getInventory().selected;
+            return player.getInventory().getSelectedSlot();
         }
 
         int best = 0;

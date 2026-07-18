@@ -92,9 +92,7 @@ public class GuiClick extends Screen implements Helper {
                     MutableComponent component = Component.literal("Selection made! For usage: " + Baritone.settings().prefix.value + "help sel");
                     component.setStyle(component.getStyle()
                             .withColor(ChatFormatting.WHITE)
-                            .withClickEvent(new ClickEvent(
-                                    ClickEvent.Action.RUN_COMMAND,
-                                    FORCE_COMMAND_PREFIX + "help sel"
+                            .withClickEvent(new ClickEvent.RunCommand(FORCE_COMMAND_PREFIX + "help sel"
                             )));
                     Helper.HELPER.logDirect(component);
                     clickStart = null;

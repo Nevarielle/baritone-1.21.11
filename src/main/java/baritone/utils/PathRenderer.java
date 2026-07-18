@@ -257,8 +257,8 @@ public final class PathRenderer implements IRenderer {
             drawDankLitGoalBox(stack, color, minX, maxX, minZ, maxZ, minY, maxY, y1, y2, setupRender);
         } else if (goal instanceof GoalXZ) {
             GoalXZ goalPos = (GoalXZ) goal;
-            minY = ctx.world().getMinBuildHeight();
-            maxY = ctx.world().getMaxBuildHeight();
+            minY = ctx.world().getMinY();
+            maxY = ctx.world().getMaxY();
 
             if (settings.renderGoalXZBeacon.value) {
                 //TODO: check

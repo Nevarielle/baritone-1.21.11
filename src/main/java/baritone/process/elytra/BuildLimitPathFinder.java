@@ -46,10 +46,10 @@ public class BuildLimitPathFinder implements IElytraPathFinder {
             throw new IllegalArgumentException("NetherPathfinderContext cannot be null");
         }
 
-        this.flightLevel = ctx.world().getMaxBuildHeight() + 16;
+        this.flightLevel = ctx.world().getMaxY() + 16;
         this.netherCtx = netherCtx;
 
-        if(netherCtx.getMaxHeight() + ctx.world().getMinBuildHeight() < ctx.world().getMaxBuildHeight()) {
+        if(netherCtx.getMaxHeight() + ctx.world().getMinY() < ctx.world().getMaxY()) {
             throw new IllegalStateException("Nether pathfinder max height is below world build limit, cannot proceed");
         }
     }
@@ -112,7 +112,7 @@ public class BuildLimitPathFinder implements IElytraPathFinder {
         final double stepX = deltaX * scale;
         final double stepZ = deltaZ * scale;
 
-        final int netherMaxHeight = netherCtx.getMaxHeight() + playerCtx.world().getMinBuildHeight() - 1;
+        final int netherMaxHeight = netherCtx.getMaxHeight() + playerCtx.world().getMinY() - 1;
 
         final ChunkPos startChunk = new ChunkPos(start.x >> 4, start.z >> 4);
 
@@ -143,7 +143,7 @@ public class BuildLimitPathFinder implements IElytraPathFinder {
      * @return A tuple containing the path (single point) and a boolean indicating if a transition point was found
      */
     public Tuple<List<BetterBlockPos>,Boolean> generateTransitionDown(BetterBlockPos start) {
-        final int netherMaxHeight = netherCtx.getMaxHeight() + playerCtx.world().getMinBuildHeight() - 1;
+        final int netherMaxHeight = netherCtx.getMaxHeight() + playerCtx.world().getMinY() - 1;
         final ChunkPos startChunk = new ChunkPos(start.x >> 4, start.z >> 4);
 
         LinkedList<BetterBlockPos> path = new LinkedList<>();
@@ -175,7 +175,7 @@ public class BuildLimitPathFinder implements IElytraPathFinder {
 
 
     public CompletableFuture<UnpackedSegment> pathFindAsync(BlockPos src, BlockPos dst) {
-        final int netherMaxHeight = netherCtx.getMaxHeight() + playerCtx.world().getMinBuildHeight() - 1;
+        final int netherMaxHeight = netherCtx.getMaxHeight() + playerCtx.world().getMinY() - 1;
         final int maxDirectPathSize = 500;
 
         // There can be some navigation issues around failed transitions if the threshold distance isn't large enough
@@ -234,7 +234,7 @@ public class BuildLimitPathFinder implements IElytraPathFinder {
                 boolean success = transition.getB();
 
                 if(!success) {
-                    BetterBlockPos newDest = distanceXZ > 32 ? new BetterBlockPos(dst) : new BetterBlockPos(dst.getX(), playerCtx.world().getMaxBuildHeight(), dst.getZ());
+                    BetterBlockPos newDest = distanceXZ > 32 ? new BetterBlockPos(dst) : new BetterBlockPos(dst.getX(), playerCtx.world().getMaxY(), dst.getZ());
                     var directPath = generateDirectPath(new BetterBlockPos(src), newDest, 0, 2);
                     return CompletableFuture.completedFuture(new UnpackedSegment(directPath.getA().stream(), directPath.getB()));
                 }
