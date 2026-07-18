@@ -56,6 +56,9 @@ public interface IRenderer {
     final class Batch {
         MultiBufferSource.BufferSource source;
         VertexConsumer consumer;
+        // The lines vertex format is POSITION_COLOR_NORMAL_LINE_WIDTH as of 1.21: the width is a
+        // per-vertex attribute now, which is why RenderSystem.lineWidth no longer exists.
+        float lineWidth = 1.0F;
     }
 
     static void glColor(Color color, float alpha) {
@@ -68,6 +71,7 @@ public interface IRenderer {
 
     static void startLines(Color color, float alpha, float lineWidth, boolean ignoreDepth) {
         glColor(color, alpha);
+        batch.lineWidth = lineWidth;
 
         // TODO(1.21.11): ignoreDepth (drawing paths through walls) is not honoured yet. Depth
         // testing is now baked into the RenderPipeline behind a RenderType, so restoring it needs a
@@ -123,10 +127,12 @@ public interface IRenderer {
 
         batch.consumer.addVertex(pose, x1, y1, z1)
                 .setColor(color[0], color[1], color[2], color[3])
-                .setNormal(pose, nx, ny, nz);
+                .setNormal(pose, nx, ny, nz)
+                .setLineWidth(batch.lineWidth);
         batch.consumer.addVertex(pose, x2, y2, z2)
                 .setColor(color[0], color[1], color[2], color[3])
-                .setNormal(pose, nx, ny, nz);
+                .setNormal(pose, nx, ny, nz)
+                .setLineWidth(batch.lineWidth);
     }
 
     static void emitAABB(PoseStack stack, AABB aabb) {
