@@ -24,10 +24,13 @@ import io.netty.util.concurrent.ThreadPerTaskExecutor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.RegistryLayer;
+import net.minecraft.server.ReloadableServerRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.progress.ChunkProgressListener;
+import net.minecraft.world.RandomSequences;
 import net.minecraft.server.packs.*;
 import net.minecraft.server.packs.repository.ServerPacksSource;
 import net.minecraft.server.packs.resources.MultiPackResourceManager;
@@ -45,10 +48,8 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTables;
-import net.minecraft.world.level.storage.loot.PredicateManager;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
@@ -63,6 +64,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -80,8 +82,7 @@ public final class BlockOptionalMeta {
     private final Set<BlockState> blockstates;
     private final Set<Integer> stateHashes;
     private final Set<Integer> stackHashes;
-    private static LootTables lootTables;
-    private static PredicateManager predicate = new PredicateManager();
+    private static ReloadableServerRegistries.Holder lootHolder;
     private static Map<Block, List<Item>> drops = new HashMap<>();
 
     public BlockOptionalMeta(@Nonnull Block block) {
@@ -224,44 +225,39 @@ public final class BlockOptionalMeta {
         return null;
     }
 
-    public static LootTables getManager() {
-        if (lootTables == null) {
+    public static ReloadableServerRegistries.Holder getManager() {
+        if (lootHolder == null) {
             MultiPackResourceManager resources = new MultiPackResourceManager(PackType.SERVER_DATA, List.of(getVanillaServerPack()));
-            ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
-            lootTables = new LootTables(predicate);
-            resourceManager.registerReloadListener(lootTables);
+            LayeredRegistryAccess<RegistryLayer> registries = RegistryLayer.createRegistryAccess();
             try {
-                resourceManager.createReload(new ThreadPerTaskExecutor(Thread::new), new ThreadPerTaskExecutor(Thread::new), CompletableFuture.completedFuture(Unit.INSTANCE), resources.listPacks().toList()).done().get();
+                // Loot tables are server-side data, so load them straight out of the vanilla
+                // datapack rather than relying on a running server.
+                ReloadableServerRegistries.LoadResult result =
+                        ReloadableServerRegistries.reload(registries, List.of(), resources, Runnable::run).get();
+                lootHolder = new ReloadableServerRegistries.Holder(result.lookupWithUpdatedTags());
             } catch (Exception exception) {
                 throw new RuntimeException(exception);
             }
-
         }
-        return lootTables;
-    }
-
-    public static PredicateManager getPredicateManager() {
-        return predicate;
+        return lootHolder;
     }
 
     private static synchronized List<Item> drops(Block b) {
         return drops.computeIfAbsent(b, block -> {
-            ResourceLocation lootTableLocation = block.getLootTable();
-            if (lootTableLocation == BuiltInLootTables.EMPTY) {
+            Optional<ResourceKey<LootTable>> lootTableKey = block.getLootTable();
+            if (lootTableKey.isEmpty()) {
                 return Collections.emptyList();
             } else {
                 List<Item> items = new ArrayList<>();
                 try {
-                    getManager().get(lootTableLocation).getRandomItems(
-                        new LootContext.Builder(ServerLevelStub.fastCreate())
-                            .withRandom(RandomSource.create())
+                    LootParams params = new LootParams.Builder(ServerLevelStub.fastCreate())
                             .withParameter(LootContextParams.ORIGIN, Vec3.atLowerCornerOf(BlockPos.ZERO))
                             .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
                             .withOptionalParameter(LootContextParams.BLOCK_ENTITY, null)
                             .withParameter(LootContextParams.BLOCK_STATE, block.defaultBlockState())
-                            .create(LootContextParamSets.BLOCK),
-                        stack -> items.add(stack.getItem())
-                    );
+                            .create(LootContextParamSets.BLOCK);
+                    getManager().getLootTable(lootTableKey.get())
+                            .getRandomItems(params, stack -> items.add(stack.getItem()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -273,7 +269,9 @@ public final class BlockOptionalMeta {
     private static class ServerLevelStub extends ServerLevel {
         private static Minecraft client = Minecraft.getInstance();
         private static Unsafe unsafe = getUnsafe();
-        public ServerLevelStub(MinecraftServer $$0, Executor $$1, LevelStorageSource.LevelStorageAccess $$2, ServerLevelData $$3, ResourceKey<Level> $$4, LevelStem $$5, ChunkProgressListener $$6, boolean $$7, long $$8, List<CustomSpawner> $$9, boolean $$10) {
+        // Never actually invoked: instances are allocated via Unsafe (see fastCreate).
+        // It only exists because a subclass must declare a matching super constructor.
+        public ServerLevelStub(MinecraftServer $$0, Executor $$1, LevelStorageSource.LevelStorageAccess $$2, ServerLevelData $$3, ResourceKey<Level> $$4, LevelStem $$5, boolean $$6, long $$7, List<CustomSpawner> $$8, boolean $$9, RandomSequences $$10) {
             super($$0, $$1, $$2, $$3, $$4, $$5, $$6, $$7, $$8, $$9, $$10);
         }
 

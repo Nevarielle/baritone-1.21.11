@@ -81,6 +81,8 @@ allprojects {
     dependencies {
         compileOnly "org.spongepowered:mixin:${project.mixin_version}"
         compileOnly "org.ow2.asm:asm:${project.asm_version}"
+        // javax.annotation (@Nonnull/@Nullable) is no longer pulled in transitively by Minecraft
+        compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 
         implementation "dev.babbaj:nether-pathfinder:${project.nether_pathfinder_version}"
     }
@@ -91,7 +93,9 @@ allprojects {
         mappings {
             intermediary()
             mojmap()
-            parchment("2023.06.26")
+            // TODO: re-enable Parchment once a 1.21.x build is confirmed available.
+            // The old "2023.06.26" build targets 1.20.1 and will not resolve for 1.21.11.
+            // parchment("1.21.x:<build>")
         }
     }
 

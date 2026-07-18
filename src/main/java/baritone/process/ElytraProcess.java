@@ -140,7 +140,7 @@ public class ElytraProcess extends BaritoneProcessHelper implements IBaritonePro
                 logDirect("Nether seed changed, recalculating path");
                 this.resetState();
             }
-            if (predictingTerrain != Baritone.settings().elytraPredictTerrain.value && ctx.player().level.dimension() == Level.NETHER) {
+            if (predictingTerrain != Baritone.settings().elytraPredictTerrain.value && ctx.player().level().dimension() == Level.NETHER) {
                 logDirect("elytraPredictTerrain setting changed, recalculating path from scratch");
                 predictingTerrain = Baritone.settings().elytraPredictTerrain.value;
                 this.resetState();
@@ -155,7 +155,7 @@ public class ElytraProcess extends BaritoneProcessHelper implements IBaritonePro
                 allowAboveBuildLimit = Baritone.settings().elytraAllowAboveBuildLimit.value;
                 this.resetState();
             }
-            if (allowAboveRoof != Baritone.settings().elytraAllowAboveRoof.value && ctx.player().level.dimension() == Level.NETHER) {
+            if (allowAboveRoof != Baritone.settings().elytraAllowAboveRoof.value && ctx.player().level().dimension() == Level.NETHER) {
                 logDirect("elytraAllowAboveRoof setting changed, recalculating path from scratch");
                 allowAboveRoof = Baritone.settings().elytraAllowAboveRoof.value;
                 this.resetState();
@@ -417,7 +417,7 @@ public class ElytraProcess extends BaritoneProcessHelper implements IBaritonePro
             return;
         }
         this.onLostControl(false);
-        this.predictingTerrain = ctx.player().level.dimension() == Level.NETHER && Baritone.settings().elytraPredictTerrain.value;
+        this.predictingTerrain = ctx.player().level().dimension() == Level.NETHER && Baritone.settings().elytraPredictTerrain.value;
         this.allowTight = Baritone.settings().elytraAllowTightSpaces.value;
         this.allowAboveBuildLimit = Baritone.settings().elytraAllowAboveBuildLimit.value;
         this.allowAboveRoof = Baritone.settings().elytraAllowAboveRoof.value;

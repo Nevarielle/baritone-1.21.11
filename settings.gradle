@@ -41,9 +41,12 @@ pluginManagement {
 
 rootProject.name = 'baritone'
 
-include("tweaker")
+// Legacy launchwrapper "tweaker" module is not maintained for 1.21.x — excluded.
+// include("tweaker")
+
+// Fabric-only target for the 1.21.11 migration. Forge dropped (no Forge for 1.21).
 if (System.getProperty("Baritone.enabled_platforms") == null) {
-    System.setProperty("Baritone.enabled_platforms", "fabric,forge")
+    System.setProperty("Baritone.enabled_platforms", "fabric")
 }
 for (platform in System.getProperty("Baritone.enabled_platforms").split(",")) {
        include(platform)

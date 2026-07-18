@@ -21,7 +21,7 @@ import baritone.Baritone;
 import baritone.api.cache.IWorldProvider;
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -110,7 +110,7 @@ public class WorldProvider implements IWorldProvider {
     }
 
     private Path getWorldDataDirectory(Path parent, Level world) {
-        ResourceLocation dimId = world.dimension().location();
+        Identifier dimId = world.dimension().location();
         int height = world.dimensionType().logicalHeight();
         return parent.resolve(dimId.getNamespace()).resolve(dimId.getPath() + "_" + height);
     }

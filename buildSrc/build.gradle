@@ -40,5 +40,9 @@ dependencies {
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
 
-    implementation group: 'xyz.wagyourtail.unimined', name: 'xyz.wagyourtail.unimined.gradle.plugin', version: '1.0.5'
+    implementation group: 'xyz.wagyourtail.unimined', name: 'xyz.wagyourtail.unimined.gradle.plugin', version: '1.4.1'
+    // unimined declares the mapping library as a runtime-scoped dependency, so its
+    // `Namespace` type is missing from the compile classpath used by ProguardTask.
+    // Add it explicitly so buildSrc compiles against unimined 1.4.x.
+    implementation group: 'xyz.wagyourtail.unimined.mapping', name: 'unimined-mapping-library-jvm', version: '1.2.1'
 }
