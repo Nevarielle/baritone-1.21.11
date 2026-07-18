@@ -109,14 +109,14 @@ public class CalculationContext {
         this.allowParkourAscend = Baritone.settings().allowParkourAscend.value;
         this.assumeWalkOnWater = Baritone.settings().assumeWalkOnWater.value;
         this.allowFallIntoLava = false; // Super secret internal setting for ElytraBehavior
-        this.frostWalker = EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, baritone.getPlayerContext().player());
+        this.frostWalker = EnchantmentUtils.getBootsLevel(baritone.getPlayerContext().player(), Enchantments.FROST_WALKER);
         this.allowDiagonalDescend = Baritone.settings().allowDiagonalDescend.value;
         this.allowDiagonalAscend = Baritone.settings().allowDiagonalAscend.value;
         this.allowDownward = Baritone.settings().allowDownward.value;
         this.minFallHeight = 3; // Minimum fall height used by MovementFall
         this.maxFallHeightNoWater = Baritone.settings().maxFallHeightNoWater.value;
         this.maxFallHeightBucket = Baritone.settings().maxFallHeightBucket.value;
-        int depth = EnchantmentHelper.getDepthStrider(player);
+        int depth = EnchantmentUtils.getBootsLevel(player, Enchantments.DEPTH_STRIDER);
         if (depth > 3) {
             depth = 3;
         }

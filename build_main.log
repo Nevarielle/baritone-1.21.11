@@ -1,0 +1,885 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.12/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :buildSrc:compileJava UP-TO-DATE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+
+> Configure project :
+[Unimined] Plugin Version: 1.4.1
+using version number: 1.9.5
+[Unimined] Plugin Version: 1.4.1
+using version number: 1.9.5
+[Unimined/Minecraft ::main] Applying minecraft config for source set 'main'
+[Unimined/MinecraftDownloader] retrieving version metadata
+[Unimined/Minecraft ::main] Applying NoTransformMinecraftTransformer
+[Unimined/Minecraft ::main] Applying run configs
+[Unimined/ModRemapper] Remapping mods from official to mojmap
+[Unimined/ModRemapper] No mods found for remapping
+
+> Configure project :fabric
+[Unimined/Minecraft :fabric:main] Applying minecraft config for source set 'main'
+[Unimined/MinecraftDownloader] retrieving version metadata
+Overwriting dependency intermediary
+[Unimined/Minecraft :fabric:main] Applying OfficialFabricMinecraftTransformer
+[Unimined/Minecraft :fabric:main] Applying run configs
+[Unimined/ModRemapper] Remapping mods from intermediary to mojmap
+[Unimined/ModRemapper] No mods found for remapping
+
+> Task :compileApiJava UP-TO-DATE
+> Task :processApiResources NO-SOURCE
+> Task :apiClasses UP-TO-DATE
+> Task :compileSchematica_apiJava UP-TO-DATE
+> Task :processSchematica_apiResources NO-SOURCE
+> Task :schematica_apiClasses UP-TO-DATE
+
+> Task :compileJava
+C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:30: error: cannot find symbol
+import net.minecraft.world.item.DiggerItem;
+                               ^
+  symbol:   class DiggerItem
+  location: package net.minecraft.world.item
+C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:33: error: cannot find symbol
+import net.minecraft.world.item.PickaxeItem;
+                               ^
+  symbol:   class PickaxeItem
+  location: package net.minecraft.world.item
+C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:138: error: cannot find symbol
+    private int bestToolAgainst(Block against, Class<? extends DiggerItem> cla$$) {
+                                                               ^
+  symbol:   class DiggerItem
+  location: class InventoryBehavior
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:22: error: cannot find symbol
+public class PlayerMovementInput extends net.minecraft.client.player.Input {
+                                                                    ^
+  symbol:   class Input
+  location: package net.minecraft.client.player
+C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\PathingBehavior.java:161: error: cannot find symbol
+                        ctx.world().disconnect();
+                                   ^
+  symbol:   method disconnect()
+  location: class Level
+C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:71: error: cannot find symbol
+        int pick = bestToolAgainst(Blocks.STONE, PickaxeItem.class);
+                                                 ^
+  symbol:   class PickaxeItem
+  location: class InventoryBehavior
+C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:207: error: cannot find symbol
+        if (desired.test(p.getInventory().offhand.get(0))) {
+                                         ^
+  symbol:   variable offhand
+  location: class Inventory
+C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:215: error: cannot find symbol
+                if (item.isEmpty() || item.getItem() instanceof PickaxeItem) {
+                                                                ^
+  symbol:   class PickaxeItem
+  location: class InventoryBehavior
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\InputOverrideHandler.java:97: error: incomparable types: Class<CAP#1> and Class<PlayerMovementInput>
+            if (ctx.player().input.getClass() != PlayerMovementInput.class) {
+                                              ^
+  where CAP#1 is a fresh type-variable:
+    CAP#1 extends ClientInput from capture of ? extends ClientInput
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\InputOverrideHandler.java:98: error: incompatible types: PlayerMovementInput cannot be converted to ClientInput
+                ctx.player().input = new PlayerMovementInput(this);
+                                     ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\InputOverrideHandler.java:101: error: incomparable types: Class<CAP#1> and Class<PlayerMovementInput>
+            if (ctx.player().input.getClass() == PlayerMovementInput.class) { // allow other movement inputs that aren't this one, e.g. for a freecam
+                                              ^
+  where CAP#1 is a fresh type-variable:
+    CAP#1 extends ClientInput from capture of ? extends ClientInput
+C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\CalculationContext.java:112: error: cannot find symbol
+        this.frostWalker = EnchantmentUtils.getBootsLevel(baritone.getPlayerContext().player(), Enchantments.FROST_WALKER);
+                           ^
+  symbol:   variable EnchantmentUtils
+  location: class CalculationContext
+C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\CalculationContext.java:119: error: cannot find symbol
+        int depth = EnchantmentUtils.getBootsLevel(player, Enchantments.DEPTH_STRIDER);
+                    ^
+  symbol:   variable EnchantmentUtils
+  location: class CalculationContext
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\CustomGoalProcess.java:113: error: cannot find symbol
+                        ctx.world().disconnect();
+                                   ^
+  symbol:   method disconnect()
+  location: class Level
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\BuilderProcess.java:1053: error: incompatible types: Map<Property<?>,Comparable<?>> cannot be converted to ImmutableMap<Property<?>,Comparable<?>>
+        ImmutableMap<Property<?>, Comparable<?>> map1 = first.getValues();
+                                                                       ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\BuilderProcess.java:1054: error: incompatible types: Map<Property<?>,Comparable<?>> cannot be converted to ImmutableMap<Property<?>,Comparable<?>>
+        ImmutableMap<Property<?>, Comparable<?>> map2 = second.getValues();
+                                                                        ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\FarmProcess.java:263: error: method isValidBonemealTarget in interface BonemealableBlock cannot be applied to given types;
+                if (ig.isValidBonemealTarget(ctx.world(), pos, state, true) && ig.isBonemealSuccess(ctx.world(), ctx.world().random, pos, state)) {
+                      ^
+  required: LevelReader,BlockPos,BlockState
+  found:    Level,BlockPos,BlockState,boolean
+  reason: actual and formal argument lists differ in length
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\WorldProvider.java:113: error: cannot find symbol
+        Identifier dimId = world.dimension().location();
+                                            ^
+  symbol:   method location()
+  location: class ResourceKey<Level>
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\WorldProvider.java:143: error: cannot find symbol
+                folderName = ctx.minecraft().isConnectedToRealms() ? "realms" : serverData.ip;
+                                            ^
+  symbol:   method isConnectedToRealms()
+  location: class Minecraft
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\CachedChunk.java:221: error: cannot find symbol
+            if (y < -59 && dimension.natural()) {
+                                    ^
+  symbol:   method natural()
+  location: variable dimension of type DimensionType
+C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\movements\MovementFall.java:148: error: invalid method reference
+        Vec3i avoid = Optional.ofNullable(avoid()).map(Direction::getNormal).orElse(null);
+                                                       ^
+  cannot find symbol
+    symbol:   method getNormal()
+    location: class Direction
+C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\MovementHelper.java:515: error: cannot find symbol
+        return EnchantmentUtils.getBootsLevel(ctx.player(), Enchantments.FROST_WALKER) > 0
+                                                            ^
+  symbol:   variable Enchantments
+  location: interface MovementHelper
+C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\MovementHelper.java:515: error: cannot find symbol
+        return EnchantmentUtils.getBootsLevel(ctx.player(), Enchantments.FROST_WALKER) > 0
+               ^
+  symbol:   variable EnchantmentUtils
+  location: interface MovementHelper
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:170: error: cannot find symbol
+                if (dimension.natural()) {
+                             ^
+  symbol:   method natural()
+  location: variable dimension of type DimensionType
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:173: error: cannot find symbol
+                if (dimension.ultraWarm()) {
+                             ^
+  symbol:   method ultraWarm()
+  location: variable dimension of type DimensionType
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:176: error: cannot find symbol
+                if (dimension.effectsLocation().equals(BuiltinDimensionTypes.END_EFFECTS)) {
+                                                                            ^
+  symbol:   variable END_EFFECTS
+  location: class BuiltinDimensionTypes
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:176: error: cannot find symbol
+                if (dimension.effectsLocation().equals(BuiltinDimensionTypes.END_EFFECTS)) {
+                             ^
+  symbol:   method effectsLocation()
+  location: variable dimension of type DimensionType
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\FasterWorldScanner.java:195: error: cannot find symbol
+        int yOffset = section.bottomBlockY();
+                             ^
+  symbol:   method bottomBlockY()
+  location: variable section of type LevelChunkSection
+C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\FasterWorldScanner.java:293: error: method write in interface Palette<T> cannot be applied to given types;
+            palette.write(buf);
+                   ^
+  required: FriendlyByteBuf,IdMap<BlockState>
+  found:    FriendlyByteBuf
+  reason: actual and formal argument lists differ in length
+  where T is a type-variable:
+    T extends Object declared in interface Palette
+C:\baritone\baritone-1.19.4\src\main\java\baritone\command\defaults\SelCommand.java:79: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+                IRenderer.emitAABB(event.getModelViewStack(), new AABB(pos1, pos1.offset(1, 1, 1)));
+                                                                       ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\elytra\ElytraBehavior.java:1315: error: cannot find symbol
+            if (slot.getItem() == Items.ELYTRA && (slot.getItem().getMaxDamage() - slot.getDamageValue()) > Baritone.settings().elytraMinimumDurability.value) {
+                                                                 ^
+  symbol:   method getMaxDamage()
+  location: class Item
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\elytra\ElytraBehavior.java:1329: error: cannot find symbol
+                || chest.getItem().getMaxDamage() - chest.getDamageValue() > Baritone.settings().elytraMinimumDurability.value) {
+                                  ^
+  symbol:   method getMaxDamage()
+  location: class Item
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\ElytraProcess.java:210: error: cannot find symbol
+                    ctx.world().disconnect();
+                               ^
+  symbol:   method disconnect()
+  location: class Level
+C:\baritone\baritone-1.19.4\src\main\java\baritone\process\ElytraProcess.java:474: error: cannot find symbol
+        if (chest.getItem() != Items.ELYTRA || chest.getItem().getMaxDamage() - chest.getDamageValue() < Baritone.settings().elytraMinimumDurability.value) {
+                                                              ^
+  symbol:   method getMaxDamage()
+  location: class Item
+C:\baritone\baritone-1.19.4\src\main\java\baritone\selection\Selection.java:40: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+        this.aabb = new AABB(this.min, this.max.offset(1, 1, 1));
+                                 ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\selection\SelectionRenderer.java:41: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+                IRenderer.emitAABB(stack, new AABB(selection.pos1(), selection.pos1().offset(1, 1, 1)));
+                                                                 ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\selection\SelectionRenderer.java:47: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+                IRenderer.emitAABB(stack, new AABB(selection.pos2(), selection.pos2().offset(1, 1, 1)));
+                                                                 ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:39: error: cannot find symbol
+    BufferBuilder buffer = tessellator.getBuilder();
+                                      ^
+  symbol:   method getBuilder()
+  location: variable tessellator of type Tesselator
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:55: error: cannot find symbol
+        RenderSystem.enableBlend();
+                    ^
+  symbol:   method enableBlend()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:56: error: invalid method reference
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+                               ^
+  cannot find symbol
+    symbol:   method getPositionColorShader()
+    location: class GameRenderer
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:58: error: cannot find symbol
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                              ^
+  symbol:   variable SourceFactor
+  location: class GlStateManager
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:59: error: cannot find symbol
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                              ^
+  symbol:   variable DestFactor
+  location: class GlStateManager
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:60: error: cannot find symbol
+                GlStateManager.SourceFactor.ONE,
+                              ^
+  symbol:   variable SourceFactor
+  location: class GlStateManager
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:61: error: cannot find symbol
+                GlStateManager.DestFactor.ZERO
+                              ^
+  symbol:   variable DestFactor
+  location: class GlStateManager
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:64: error: cannot find symbol
+        RenderSystem.lineWidth(lineWidth);
+                    ^
+  symbol:   method lineWidth(float)
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:65: error: cannot find symbol
+        RenderSystem.depthMask(false);
+                    ^
+  symbol:   method depthMask(boolean)
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:66: error: cannot find symbol
+        RenderSystem.disableCull();
+                    ^
+  symbol:   method disableCull()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:69: error: cannot find symbol
+            RenderSystem.disableDepthTest();
+                        ^
+  symbol:   method disableDepthTest()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:71: error: invalid method reference
+        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
+                               ^
+  cannot find symbol
+    symbol:   method getRendertypeLinesShader()
+    location: class GameRenderer
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:72: error: cannot find symbol
+        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+              ^
+  symbol:   method begin(Mode,VertexFormat)
+  location: variable buffer of type BufferBuilder
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:80: error: cannot find symbol
+        tessellator.end();
+                   ^
+  symbol:   method end()
+  location: variable tessellator of type Tesselator
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:82: error: cannot find symbol
+            RenderSystem.enableDepthTest();
+                        ^
+  symbol:   method enableDepthTest()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:85: error: cannot find symbol
+        RenderSystem.enableCull();
+                    ^
+  symbol:   method enableCull()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:86: error: cannot find symbol
+        RenderSystem.depthMask(true);
+                    ^
+  symbol:   method depthMask(boolean)
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:87: error: cannot find symbol
+        RenderSystem.disableBlend();
+                    ^
+  symbol:   method disableBlend()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:121: error: cannot find symbol
+        buffer.vertex(matrix4f, x1, y1, z1).color(color[0], color[1], color[2], color[3]).normal(normal, nx, ny, nz).endVertex();
+              ^
+  symbol:   method vertex(Matrix4f,float,float,float)
+  location: variable buffer of type BufferBuilder
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:122: error: cannot find symbol
+        buffer.vertex(matrix4f, x2, y2, z2).color(color[0], color[1], color[2], color[3]).normal(normal, nx, ny, nz).endVertex();
+              ^
+  symbol:   method vertex(Matrix4f,float,float,float)
+  location: variable buffer of type BufferBuilder
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\BlockStateInterfaceAccessWrapper.java:32: error: BlockStateInterfaceAccessWrapper is not abstract and does not override abstract method getMinY() in LevelHeightAccessor
+public final class BlockStateInterfaceAccessWrapper implements BlockGetter {
+             ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\BlockStateInterfaceAccessWrapper.java:62: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:64: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:85: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:107: error: method mouseReleased in interface ContainerEventHandler cannot be applied to given types;
+        return super.mouseReleased(mouseX, mouseY, mouseButton);
+                    ^
+  required: MouseButtonEvent
+  found:    double,double,int
+  reason: actual and formal argument lists differ in length
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:110: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:113: error: method mouseClicked in interface ContainerEventHandler cannot be applied to given types;
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
+                    ^
+  required: MouseButtonEvent,boolean
+  found:    double,double,int
+  reason: actual and formal argument lists differ in length
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:212: error: level has private access in Entity
+            VoxelShape shape = state.getShape(player.level, pos);
+                                                    ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:265: error: cannot find symbol
+                textureManager.bindForSetup(TEXTURE_BEACON_BEAM);
+                              ^
+  symbol:   method bindForSetup(Identifier)
+  location: variable textureManager of type TextureManager
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:267: error: cannot find symbol
+                    RenderSystem.disableDepthTest();
+                                ^
+  symbol:   method disableDepthTest()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:274: error: cannot find symbol
+                BeaconRenderer.renderBeaconBeam(
+                              ^
+  symbol:   method renderBeaconBeam(PoseStack,BufferSource,Identifier,float,float,long,int,int,float[],float,float)
+  location: class BeaconRenderer
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:293: error: cannot find symbol
+                    RenderSystem.enableDepthTest();
+                                ^
+  symbol:   method enableDepthTest()
+  location: class RenderSystem
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:30: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:32: error: cannot find symbol
+        this.leftImpulse = 0.0F;
+            ^
+  symbol: variable leftImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:33: error: cannot find symbol
+        this.forwardImpulse = 0.0F;
+            ^
+  symbol: variable forwardImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:35: error: cannot find symbol
+        this.jumping = handler.isInputForcedDown(Input.JUMP); // oppa gangnam style
+            ^
+  symbol: variable jumping
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:37: error: cannot find symbol
+        if (this.up = handler.isInputForcedDown(Input.MOVE_FORWARD)) {
+                ^
+  symbol: variable up
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:38: error: cannot find symbol
+            this.forwardImpulse++;
+                ^
+  symbol: variable forwardImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:41: error: cannot find symbol
+        if (this.down = handler.isInputForcedDown(Input.MOVE_BACK)) {
+                ^
+  symbol: variable down
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:42: error: cannot find symbol
+            this.forwardImpulse--;
+                ^
+  symbol: variable forwardImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:45: error: cannot find symbol
+        if (this.left = handler.isInputForcedDown(Input.MOVE_LEFT)) {
+                ^
+  symbol: variable left
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:46: error: cannot find symbol
+            this.leftImpulse++;
+                ^
+  symbol: variable leftImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:49: error: cannot find symbol
+        if (this.right = handler.isInputForcedDown(Input.MOVE_RIGHT)) {
+                ^
+  symbol: variable right
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:50: error: cannot find symbol
+            this.leftImpulse--;
+                ^
+  symbol: variable leftImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:53: error: cannot find symbol
+        if (this.shiftKeyDown = handler.isInputForcedDown(Input.SNEAK)) {
+                ^
+  symbol: variable shiftKeyDown
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:54: error: cannot find symbol
+            this.leftImpulse *= 0.3D;
+                ^
+  symbol: variable leftImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:55: error: cannot find symbol
+            this.forwardImpulse *= 0.3D;
+                ^
+  symbol: variable forwardImpulse
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\defaults\LitematicaSchematic.java:102: error: incompatible types: Optional<String> cannot be converted to String
+            String propertyValue = properties.getString((String) key);
+                                                       ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\defaults\LitematicaSchematic.java:164: error: incompatible types: Optional<long[]> cannot be converted to long[]
+            long[] blockStateArray = subReg.getLongArray("BlockStates");
+                                                        ^
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\DefaultSchematicFormats.java:49: error: no suitable method found for readCompressed(InputStream)
+            return new MCEditSchematic(NbtIo.readCompressed(input));
+                                            ^
+    method NbtIo.readCompressed(Path,NbtAccounter) is not applicable
+      (actual and formal argument lists differ in length)
+    method NbtIo.readCompressed(InputStream,NbtAccounter) is not applicable
+      (actual and formal argument lists differ in length)
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\DefaultSchematicFormats.java:61: error: no suitable method found for readCompressed(InputStream)
+            CompoundTag nbt = NbtIo.readCompressed(input);
+                                   ^
+    method NbtIo.readCompressed(Path,NbtAccounter) is not applicable
+      (actual and formal argument lists differ in length)
+    method NbtIo.readCompressed(InputStream,NbtAccounter) is not applicable
+      (actual and formal argument lists differ in length)
+C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\DefaultSchematicFormats.java:79: error: no suitable method found for readCompressed(InputStream)
+            CompoundTag nbt = NbtIo.readCompressed(input);
+                                   ^
+    method NbtIo.readCompressed(Path,NbtAccounter) is not applicable
+      (actual and formal argument lists differ in length)
+    method NbtIo.readCompressed(InputStream,NbtAccounter) is not applicable
+      (actual and formal argument lists differ in length)
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+89 errors
+
+> Task :compileJava FAILED
+
+[Incubating] Problems report is available at: file:///C:/baritone/baritone-1.19.4/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:32: error: cannot find symbol
+          this.leftImpulse = 0.0F;
+              ^
+    symbol: variable leftImpulse
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:33: error: cannot find symbol
+          this.forwardImpulse = 0.0F;
+              ^
+    symbol: variable forwardImpulse
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:35: error: cannot find symbol
+          this.jumping = handler.isInputForcedDown(Input.JUMP); // oppa gangnam style
+              ^
+    symbol: variable jumping
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:37: error: cannot find symbol
+          if (this.up = handler.isInputForcedDown(Input.MOVE_FORWARD)) {
+                  ^
+    symbol: variable up
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:38: error: cannot find symbol
+              this.forwardImpulse++;
+                  ^
+    symbol: variable forwardImpulse
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:41: error: cannot find symbol
+          if (this.down = handler.isInputForcedDown(Input.MOVE_BACK)) {
+                  ^
+    symbol: variable down
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:42: error: cannot find symbol
+              this.forwardImpulse--;
+                  ^
+    symbol: variable forwardImpulse
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:45: error: cannot find symbol
+          if (this.left = handler.isInputForcedDown(Input.MOVE_LEFT)) {
+                  ^
+    symbol: variable left
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:46: error: cannot find symbol
+              this.leftImpulse++;
+                  ^
+    symbol: variable leftImpulse
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:49: error: cannot find symbol
+          if (this.right = handler.isInputForcedDown(Input.MOVE_RIGHT)) {
+                  ^
+    symbol: variable right
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:50: error: cannot find symbol
+              this.leftImpulse--;
+                  ^
+    symbol: variable leftImpulse
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:53: error: cannot find symbol
+          if (this.shiftKeyDown = handler.isInputForcedDown(Input.SNEAK)) {
+                  ^
+    symbol: variable shiftKeyDown
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:54: error: cannot find symbol
+              this.leftImpulse *= 0.3D;
+                  ^
+    symbol: variable leftImpulse
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:55: error: cannot find symbol
+              this.forwardImpulse *= 0.3D;
+                  ^
+    symbol: variable forwardImpulseNote: Recompile with -Xlint:deprecation for details.C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\InputOverrideHandler.java:97: error: incomparable types: Class<CAP#1> and Class<PlayerMovementInput>
+              if (ctx.player().input.getClass() != PlayerMovementInput.class) {
+                                                ^
+    where CAP#1 is a fresh type-variable:
+      CAP#1 extends ClientInput from capture of ? extends ClientInput
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\InputOverrideHandler.java:101: error: incomparable types: Class<CAP#1> and Class<PlayerMovementInput>
+              if (ctx.player().input.getClass() == PlayerMovementInput.class) { // allow other movement inputs that aren't this one, e.g. for a freecam
+                                                ^
+    where CAP#1 is a fresh type-variable:
+      CAP#1 extends ClientInput from capture of ? extends ClientInputC:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\DefaultSchematicFormats.java:49: error: no suitable method found for readCompressed(InputStream)
+              return new MCEditSchematic(NbtIo.readCompressed(input));
+                                              ^
+      method NbtIo.readCompressed(Path,NbtAccounter) is not applicable
+        (actual and formal argument lists differ in length)
+      method NbtIo.readCompressed(InputStream,NbtAccounter) is not applicable
+        (actual and formal argument lists differ in length)
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\DefaultSchematicFormats.java:61: error: no suitable method found for readCompressed(InputStream)
+              CompoundTag nbt = NbtIo.readCompressed(input);
+                                     ^
+      method NbtIo.readCompressed(Path,NbtAccounter) is not applicable
+        (actual and formal argument lists differ in length)
+      method NbtIo.readCompressed(InputStream,NbtAccounter) is not applicable
+        (actual and formal argument lists differ in length)
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\DefaultSchematicFormats.java:79: error: no suitable method found for readCompressed(InputStream)
+              CompoundTag nbt = NbtIo.readCompressed(input);
+                                     ^
+      method NbtIo.readCompressed(Path,NbtAccounter) is not applicable
+        (actual and formal argument lists differ in length)
+      method NbtIo.readCompressed(InputStream,NbtAccounter) is not applicable
+        (actual and formal argument lists differ in length)C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\BlockStateInterfaceAccessWrapper.java:62: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:64: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:85: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:110: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:30: error: method does not override or implement a method from a supertype
+      @Override
+      ^C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:30: error: cannot find symbol
+  import net.minecraft.world.item.DiggerItem;
+                                 ^
+    symbol:   class DiggerItem
+    location: package net.minecraft.world.item
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:33: error: cannot find symbol
+  import net.minecraft.world.item.PickaxeItem;
+                                 ^
+    symbol:   class PickaxeItem
+    location: package net.minecraft.world.item
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:138: error: cannot find symbol
+      private int bestToolAgainst(Block against, Class<? extends DiggerItem> cla$$) {
+                                                                 ^
+    symbol:   class DiggerItem
+    location: class InventoryBehavior
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PlayerMovementInput.java:22: error: cannot find symbol
+  public class PlayerMovementInput extends net.minecraft.client.player.Input {
+                                                                      ^
+    symbol:   class Input
+    location: package net.minecraft.client.player
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:71: error: cannot find symbol
+          int pick = bestToolAgainst(Blocks.STONE, PickaxeItem.class);
+                                                   ^
+    symbol:   class PickaxeItem
+    location: class InventoryBehavior
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:207: error: cannot find symbol
+          if (desired.test(p.getInventory().offhand.get(0))) {
+                                           ^
+    symbol:   variable offhand
+    location: class Inventory
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\InventoryBehavior.java:215: error: cannot find symbol
+                  if (item.isEmpty() || item.getItem() instanceof PickaxeItem) {
+                                                                  ^
+    symbol:   class PickaxeItem
+    location: class InventoryBehavior
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\CalculationContext.java:112: error: cannot find symbol
+          this.frostWalker = EnchantmentUtils.getBootsLevel(baritone.getPlayerContext().player(), Enchantments.FROST_WALKER);
+                             ^
+    symbol:   variable EnchantmentUtils
+    location: class CalculationContext
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\CalculationContext.java:119: error: cannot find symbol
+          int depth = EnchantmentUtils.getBootsLevel(player, Enchantments.DEPTH_STRIDER);
+                      ^
+    symbol:   variable EnchantmentUtils
+    location: class CalculationContext
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\MovementHelper.java:515: error: cannot find symbol
+          return EnchantmentUtils.getBootsLevel(ctx.player(), Enchantments.FROST_WALKER) > 0
+                                                              ^
+    symbol:   variable Enchantments
+    location: interface MovementHelper
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\MovementHelper.java:515: error: cannot find symbol
+          return EnchantmentUtils.getBootsLevel(ctx.player(), Enchantments.FROST_WALKER) > 0
+                 ^
+    symbol:   variable EnchantmentUtils
+    location: interface MovementHelper
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:176: error: cannot find symbol
+                  if (dimension.effectsLocation().equals(BuiltinDimensionTypes.END_EFFECTS)) {
+                                                                              ^
+    symbol:   variable END_EFFECTS
+    location: class BuiltinDimensionTypes
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:58: error: cannot find symbol
+                  GlStateManager.SourceFactor.SRC_ALPHA,
+                                ^
+    symbol:   variable SourceFactor
+    location: class GlStateManager
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:59: error: cannot find symbol
+                  GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                                ^
+    symbol:   variable DestFactor
+    location: class GlStateManager
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:60: error: cannot find symbol
+                  GlStateManager.SourceFactor.ONE,
+                                ^
+    symbol:   variable SourceFactor
+    location: class GlStateManager
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:61: error: cannot find symbol
+                  GlStateManager.DestFactor.ZERO
+                                ^
+    symbol:   variable DestFactor
+    location: class GlStateManagerNote: Some input files use unchecked or unsafe operations.C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\InputOverrideHandler.java:98: error: incompatible types: PlayerMovementInput cannot be converted to ClientInput
+                  ctx.player().input = new PlayerMovementInput(this);
+                                       ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\process\BuilderProcess.java:1053: error: incompatible types: Map<Property<?>,Comparable<?>> cannot be converted to ImmutableMap<Property<?>,Comparable<?>>
+          ImmutableMap<Property<?>, Comparable<?>> map1 = first.getValues();
+                                                                         ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\process\BuilderProcess.java:1054: error: incompatible types: Map<Property<?>,Comparable<?>> cannot be converted to ImmutableMap<Property<?>,Comparable<?>>
+          ImmutableMap<Property<?>, Comparable<?>> map2 = second.getValues();
+                                                                          ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\command\defaults\SelCommand.java:79: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+                  IRenderer.emitAABB(event.getModelViewStack(), new AABB(pos1, pos1.offset(1, 1, 1)));
+                                                                         ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\selection\Selection.java:40: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+          this.aabb = new AABB(this.min, this.max.offset(1, 1, 1));
+                                   ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\selection\SelectionRenderer.java:41: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+                  IRenderer.emitAABB(stack, new AABB(selection.pos1(), selection.pos1().offset(1, 1, 1)));
+                                                                   ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\selection\SelectionRenderer.java:47: error: incompatible types: BetterBlockPos cannot be converted to Vec3
+                  IRenderer.emitAABB(stack, new AABB(selection.pos2(), selection.pos2().offset(1, 1, 1)));
+                                                                   ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\defaults\LitematicaSchematic.java:102: error: incompatible types: Optional<String> cannot be converted to String
+              String propertyValue = properties.getString((String) key);
+                                                         ^
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\schematic\format\defaults\LitematicaSchematic.java:164: error: incompatible types: Optional<long[]> cannot be converted to long[]
+              long[] blockStateArray = subReg.getLongArray("BlockStates");
+                                                          ^C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\BlockStateInterfaceAccessWrapper.java:32: error: BlockStateInterfaceAccessWrapper is not abstract and does not override abstract method getMinY() in LevelHeightAccessor
+  public final class BlockStateInterfaceAccessWrapper implements BlockGetter {
+               ^C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:212: error: level has private access in Entity
+              VoxelShape shape = state.getShape(player.level, pos);
+                                                      ^Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full outputC:\baritone\baritone-1.19.4\src\main\java\baritone\pathing\movement\movements\MovementFall.java:148: error: invalid method reference
+          Vec3i avoid = Optional.ofNullable(avoid()).map(Direction::getNormal).orElse(null);
+                                                         ^
+    cannot find symbol
+      symbol:   method getNormal()
+      location: class Direction
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:56: error: invalid method reference
+          RenderSystem.setShader(GameRenderer::getPositionColorShader);
+                                 ^
+    cannot find symbol
+      symbol:   method getPositionColorShader()
+      location: class GameRenderer
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:71: error: invalid method reference
+          RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
+                                 ^
+    cannot find symbol
+      symbol:   method getRendertypeLinesShader()
+      location: class GameRendererC:\baritone\baritone-1.19.4\src\main\java\baritone\process\FarmProcess.java:263: error: method isValidBonemealTarget in interface BonemealableBlock cannot be applied to given types;
+                  if (ig.isValidBonemealTarget(ctx.world(), pos, state, true) && ig.isBonemealSuccess(ctx.world(), ctx.world().random, pos, state)) {
+                        ^
+    required: LevelReader,BlockPos,BlockState
+    found:    Level,BlockPos,BlockState,boolean
+    reason: actual and formal argument lists differ in length
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\FasterWorldScanner.java:293: error: method write in interface Palette<T> cannot be applied to given types;
+              palette.write(buf);
+                     ^
+    required: FriendlyByteBuf,IdMap<BlockState>
+    found:    FriendlyByteBuf
+    reason: actual and formal argument lists differ in length
+    where T is a type-variable:
+      T extends Object declared in interface Palette
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:107: error: method mouseReleased in interface ContainerEventHandler cannot be applied to given types;
+          return super.mouseReleased(mouseX, mouseY, mouseButton);
+                      ^
+    required: MouseButtonEvent
+    found:    double,double,int
+    reason: actual and formal argument lists differ in length
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\GuiClick.java:113: error: method mouseClicked in interface ContainerEventHandler cannot be applied to given types;
+          return super.mouseClicked(mouseX, mouseY, mouseButton);
+                      ^
+    required: MouseButtonEvent,boolean
+    found:    double,double,int
+    reason: actual and formal argument lists differ in lengthNote: Recompile with -Xlint:unchecked for details.C:\baritone\baritone-1.19.4\src\main\java\baritone\behavior\PathingBehavior.java:161: error: cannot find symbol
+                          ctx.world().disconnect();
+                                     ^
+    symbol:   method disconnect()
+    location: class Level
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\process\CustomGoalProcess.java:113: error: cannot find symbol
+                          ctx.world().disconnect();
+                                     ^
+    symbol:   method disconnect()
+    location: class Level
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\WorldProvider.java:113: error: cannot find symbol
+          Identifier dimId = world.dimension().location();
+                                              ^
+    symbol:   method location()
+    location: class ResourceKey<Level>
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\WorldProvider.java:143: error: cannot find symbol
+                  folderName = ctx.minecraft().isConnectedToRealms() ? "realms" : serverData.ip;
+                                              ^
+    symbol:   method isConnectedToRealms()
+    location: class Minecraft
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\CachedChunk.java:221: error: cannot find symbol
+              if (y < -59 && dimension.natural()) {
+                                      ^
+    symbol:   method natural()
+    location: variable dimension of type DimensionType
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:170: error: cannot find symbol
+                  if (dimension.natural()) {
+                               ^
+    symbol:   method natural()
+    location: variable dimension of type DimensionType
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:173: error: cannot find symbol
+                  if (dimension.ultraWarm()) {
+                               ^
+    symbol:   method ultraWarm()
+    location: variable dimension of type DimensionType
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\ChunkPacker.java:176: error: cannot find symbol
+                  if (dimension.effectsLocation().equals(BuiltinDimensionTypes.END_EFFECTS)) {
+                               ^
+    symbol:   method effectsLocation()
+    location: variable dimension of type DimensionType
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\cache\FasterWorldScanner.java:195: error: cannot find symbol
+          int yOffset = section.bottomBlockY();
+                               ^
+    symbol:   method bottomBlockY()
+    location: variable section of type LevelChunkSection
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\process\elytra\ElytraBehavior.java:1315: error: cannot find symbol
+              if (slot.getItem() == Items.ELYTRA && (slot.getItem().getMaxDamage() - slot.getDamageValue()) > Baritone.settings().elytraMinimumDurability.value) {
+                                                                   ^
+    symbol:   method getMaxDamage()
+    location: class Item
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\process\elytra\ElytraBehavior.java:1329: error: cannot find symbol
+                  || chest.getItem().getMaxDamage() - chest.getDamageValue() > Baritone.settings().elytraMinimumDurability.value) {
+                                    ^
+    symbol:   method getMaxDamage()
+    location: class Item
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\process\ElytraProcess.java:210: error: cannot find symbol
+                      ctx.world().disconnect();
+                                 ^
+    symbol:   method disconnect()
+    location: class Level
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\process\ElytraProcess.java:474: error: cannot find symbol
+          if (chest.getItem() != Items.ELYTRA || chest.getItem().getMaxDamage() - chest.getDamageValue() < Baritone.settings().elytraMinimumDurability.value) {
+                                                                ^
+    symbol:   method getMaxDamage()
+    location: class Item
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:39: error: cannot find symbol
+      BufferBuilder buffer = tessellator.getBuilder();
+                                        ^
+    symbol:   method getBuilder()
+    location: variable tessellator of type Tesselator
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:55: error: cannot find symbol
+          RenderSystem.enableBlend();
+                      ^
+    symbol:   method enableBlend()
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:64: error: cannot find symbol
+          RenderSystem.lineWidth(lineWidth);
+                      ^
+    symbol:   method lineWidth(float)
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:65: error: cannot find symbol
+          RenderSystem.depthMask(false);
+                      ^
+    symbol:   method depthMask(boolean)
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:66: error: cannot find symbol
+          RenderSystem.disableCull();
+                      ^
+    symbol:   method disableCull()
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:69: error: cannot find symbol
+              RenderSystem.disableDepthTest();
+                          ^
+    symbol:   method disableDepthTest()
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:72: error: cannot find symbol
+          buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+                ^
+    symbol:   method begin(Mode,VertexFormat)
+    location: variable buffer of type BufferBuilder
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:80: error: cannot find symbol
+          tessellator.end();
+                     ^
+    symbol:   method end()
+    location: variable tessellator of type Tesselator
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:82: error: cannot find symbol
+              RenderSystem.enableDepthTest();
+                          ^
+    symbol:   method enableDepthTest()
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:85: error: cannot find symbol
+          RenderSystem.enableCull();
+                      ^
+    symbol:   method enableCull()
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:86: error: cannot find symbol
+          RenderSystem.depthMask(true);
+                      ^
+    symbol:   method depthMask(boolean)
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:87: error: cannot find symbol
+          RenderSystem.disableBlend();
+                      ^
+    symbol:   method disableBlend()
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:121: error: cannot find symbol
+          buffer.vertex(matrix4f, x1, y1, z1).color(color[0], color[1], color[2], color[3]).normal(normal, nx, ny, nz).endVertex();
+                ^
+    symbol:   method vertex(Matrix4f,float,float,float)
+    location: variable buffer of type BufferBuilder
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\IRenderer.java:122: error: cannot find symbol
+          buffer.vertex(matrix4f, x2, y2, z2).color(color[0], color[1], color[2], color[3]).normal(normal, nx, ny, nz).endVertex();
+                ^
+    symbol:   method vertex(Matrix4f,float,float,float)
+    location: variable buffer of type BufferBuilder
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:265: error: cannot find symbol
+                  textureManager.bindForSetup(TEXTURE_BEACON_BEAM);
+                                ^
+    symbol:   method bindForSetup(Identifier)
+    location: variable textureManager of type TextureManager
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:267: error: cannot find symbol
+                      RenderSystem.disableDepthTest();
+                                  ^
+    symbol:   method disableDepthTest()
+    location: class RenderSystem
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:274: error: cannot find symbol
+                  BeaconRenderer.renderBeaconBeam(
+                                ^
+    symbol:   method renderBeaconBeam(PoseStack,BufferSource,Identifier,float,float,long,int,int,float[],float,float)
+    location: class BeaconRenderer
+  C:\baritone\baritone-1.19.4\src\main\java\baritone\utils\PathRenderer.java:293: error: cannot find symbol
+                      RenderSystem.enableDepthTest();
+                                  ^
+    symbol:   method enableDepthTest()
+    location: class RenderSystemNote: Some input files use or override a deprecated API.
+  89 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.12/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 25s
+5 actionable tasks: 1 executed, 4 up-to-date

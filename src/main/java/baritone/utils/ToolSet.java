@@ -21,9 +21,8 @@ import baritone.Baritone;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -85,16 +84,19 @@ public class ToolSet {
      * @return values from 0 up
      */
     private int getMaterialCost(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof TieredItem) {
-            TieredItem tool = (TieredItem) itemStack.getItem();
-            return tool.getTier().getLevel();
+        // Tool tiers stopped being a class hierarchy in 1.21 (TieredItem/DiggerItem are gone) and
+        // tools are described by the TOOL data component instead. Durability is used as a stand-in
+        // for "how expensive is it to wear this tool out", which preserves the original intent of
+        // this tiebreaker: given equal mining speed, prefer the more expendable tool.
+        if (itemStack.has(DataComponents.TOOL)) {
+            return itemStack.getMaxDamage();
         } else {
             return -1;
         }
     }
 
     public boolean hasSilkTouch(ItemStack stack) {
-        return EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0;
+        return EnchantmentUtils.getLevel(player, Enchantments.SILK_TOUCH, stack) > 0;
     }
 
     /**
@@ -191,7 +193,7 @@ public class ToolSet {
 
         float speed = item.getDestroySpeed(state);
         if (speed > 1) {
-            int effLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY, item);
+            int effLevel = EnchantmentUtils.getLevel(Enchantments.EFFICIENCY, item);
             if (effLevel > 0 && !item.isEmpty()) {
                 speed += effLevel * effLevel + 1;
             }
@@ -212,11 +214,11 @@ public class ToolSet {
      */
     private double potionAmplifier() {
         double speed = 1;
-        if (player.hasEffect(MobEffects.DIG_SPEED)) {
-            speed *= 1 + (player.getEffect(MobEffects.DIG_SPEED).getAmplifier() + 1) * 0.2;
+        if (player.hasEffect(MobEffects.HASTE)) {
+            speed *= 1 + (player.getEffect(MobEffects.HASTE).getAmplifier() + 1) * 0.2;
         }
-        if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
-            switch (player.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) {
+        if (player.hasEffect(MobEffects.MINING_FATIGUE)) {
+            switch (player.getEffect(MobEffects.MINING_FATIGUE).getAmplifier()) {
                 case 0:
                     speed *= 0.3;
                     break;

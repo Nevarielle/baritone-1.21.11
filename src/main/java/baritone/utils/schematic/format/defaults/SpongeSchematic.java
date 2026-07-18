@@ -40,15 +40,15 @@ import net.minecraft.world.level.block.state.properties.Property;
 public final class SpongeSchematic extends StaticSchematic {
 
     public SpongeSchematic(CompoundTag nbt) {
-        this.x = nbt.getInt("Width");
-        this.y = nbt.getInt("Height");
-        this.z = nbt.getInt("Length");
+        this.x = nbt.getIntOr("Width", 0);
+        this.y = nbt.getIntOr("Height", 0);
+        this.z = nbt.getIntOr("Length", 0);
         this.states = new BlockState[this.x][this.z][this.y];
 
         Int2ObjectArrayMap<BlockState> palette = new Int2ObjectArrayMap<>();
-        CompoundTag paletteTag = nbt.getCompound("Palette");
-        for (String tag : paletteTag.getAllKeys()) {
-            int index = paletteTag.getInt(tag);
+        CompoundTag paletteTag = nbt.getCompoundOrEmpty("Palette");
+        for (String tag : paletteTag.keySet()) {
+            int index = paletteTag.getIntOr(tag, 0);
 
             SerializedBlockState serializedState = SerializedBlockState.getFromString(tag);
             if (serializedState == null) {
@@ -64,7 +64,7 @@ public final class SpongeSchematic extends StaticSchematic {
         }
 
         // BlockData is stored as an NBT byte[], however, the actual data that is represented is a varint[]
-        byte[] rawBlockData = nbt.getByteArray("BlockData");
+        byte[] rawBlockData = nbt.getByteArray("BlockData").orElse(new byte[0]);
         int[] blockData = new int[this.x * this.y * this.z];
         int offset = 0;
         for (int i = 0; i < blockData.length; i++) {
@@ -107,7 +107,7 @@ public final class SpongeSchematic extends StaticSchematic {
 
         private BlockState deserialize() {
             if (this.blockState == null) {
-                Block block = BuiltInRegistries.BLOCK.get(this.resourceLocation);
+                Block block = BuiltInRegistries.BLOCK.getValue(this.resourceLocation);
                 this.blockState = block.defaultBlockState();
 
                 this.properties.keySet().stream().sorted(String::compareTo).forEachOrdered(key -> {

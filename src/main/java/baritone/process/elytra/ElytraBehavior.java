@@ -33,6 +33,7 @@ import baritone.utils.accessor.IFireworkRocketEntity;
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import it.unimi.dsi.fastutil.floats.FloatIterator;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
@@ -42,13 +43,15 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Fireworks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -934,9 +937,9 @@ public final class ElytraBehavior implements Helper {
         if (itemStack.getItem() != Items.FIREWORK_ROCKET) {
             return false;
         }
-        // If it has NBT data, make sure it won't cause us to explode.
-        final CompoundTag compound = itemStack.getTagElement("Fireworks");
-        return compound == null || !compound.getAllKeys().contains("Explosions");
+        // If it has explosion effects, make sure it won't cause us to explode.
+        final Fireworks fireworks = itemStack.get(DataComponents.FIREWORKS);
+        return fireworks == null || fireworks.explosions().isEmpty();
     }
 
     private static boolean isBoostingFireworks(final ItemStack itemStack) {
@@ -945,9 +948,9 @@ public final class ElytraBehavior implements Helper {
 
     private static OptionalInt getFireworkBoost(final ItemStack itemStack) {
         if (isFireworks(itemStack)) {
-            final CompoundTag compound = itemStack.getTagElement("Fireworks");
-            if (compound != null && compound.getAllKeys().contains("Flight")) {
-                return OptionalInt.of(compound.getByte("Flight"));
+            final Fireworks fireworks = itemStack.get(DataComponents.FIREWORKS);
+            if (fireworks != null) {
+                return OptionalInt.of(fireworks.flightDuration());
             }
         }
         return OptionalInt.empty();
@@ -1283,8 +1286,8 @@ public final class ElytraBehavior implements Helper {
     // any call to this must be done with the lock held
     private boolean passable(int x, int y, int z, boolean ignoreLava) {
         if (ignoreLava) {
-            final Material mat = this.bsi.get0(x, y, z).getMaterial();
-            return mat == Material.AIR || mat == Material.LAVA;
+            final BlockState state = this.bsi.get0(x, y, z);
+            return state.isAir() || state.getFluidState().is(Fluids.LAVA);
         } else {
             return passable(x, y, z);
         }
