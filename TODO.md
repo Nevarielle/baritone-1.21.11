@@ -15,7 +15,7 @@
 | sourceset `main` | ✅ компилируется |
 | sourceset `launch` (миксины) | ✅ компилируется, все 17 миксинов разрешаются |
 | **Сборка jar** | ✅ **`fabric/build/libs/baritone-fabric-1.9.5.jar`** |
-| Тест в игре | ⏳ ожидает проверки |
+| **Тест в игре** | ✅ **подтверждено: `#goto`, `#explore`, `#mine` работают, отрисовка корректна** |
 
 Сборка jar:
 `JAVA_HOME=/c/baritone/jdk21/jdk-21.0.11+10 ./gradlew :fabric:remapJar`
