@@ -45,11 +45,12 @@ public abstract class MixinScreen implements IGuiScreen {
     //TODO: switch to enum extention with mixin 9.0 or whenever Mumfrey gets around to it
     @Inject(at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;)V", remap = false, ordinal = 1), method = "handleComponentClicked", cancellable = true)
     public void handleCustomClickEvent(Style style, CallbackInfoReturnable<Boolean> cir) {
-        ClickEvent clickEvent = style.getClickEvent();
-        if (clickEvent == null) {
+        // ClickEvent became a sealed interface of records in 1.21, so the command lives on the
+        // RunCommand variant rather than a generic getValue().
+        if (!(style.getClickEvent() instanceof ClickEvent.RunCommand runCommand)) {
             return;
         }
-        String command = clickEvent.getValue();
+        String command = runCommand.command();
         if (command == null || !command.startsWith(FORCE_COMMAND_PREFIX)) {
             return;
         }

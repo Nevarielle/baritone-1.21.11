@@ -162,18 +162,9 @@ public class MixinMinecraft {
         );
     }
 
-    @Redirect(
-            method = "tick",
-            at = @At(
-                    value = "FIELD",
-                    opcode = Opcodes.GETFIELD,
-                    target = "Lnet/minecraft/client/gui/screens/Screen;passEvents:Z"
-            )
-    )
-    private boolean passEvents(Screen screen) {
-        // allow user input is only the primary baritone
-        return (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() && player != null) || screen.passEvents;
-    }
+    // TODO(1.21.11): Screen.passEvents was removed upstream, so the redirect that let Baritone keep
+    // receiving movement input while a screen is open is gone. Any replacement needs a different
+    // hook; leaving the redirect in place would just fail to apply at runtime.
 
     // TODO
     // FIXME
