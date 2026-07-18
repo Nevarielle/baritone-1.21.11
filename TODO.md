@@ -1,5 +1,73 @@
 # TODO: Обновление Baritone 1.19.4 → 1.21.11 (Fabric)
 
+---
+
+## СТАТУС (обновляется по ходу работы)
+
+Ветка: `update/1.21.11-fabric`. Baseline 1.19.4 сохранён коммитом.
+
+| Этап | Статус |
+|---|---|
+| Тулчейн (Gradle 8.12, unimined 1.4.1, JDK 21) | ✅ работает |
+| `buildSrc` | ✅ компилируется |
+| sourceset `api` | ✅ **компилируется чисто** |
+| sourceset `schematica_api` | ✅ компилируется |
+| sourceset `main` | 🔧 ~151 ошибка (см. ниже) |
+| sourceset `launch` (миксины) | ⏳ не начат |
+| Сборка jar / тест в игре | ⏳ не начат |
+
+**JDK 21** лежит в `c:\baritone\jdk21\jdk-21.0.11+10` (портативный Temurin, вне репозитория).
+Сборка: `JAVA_HOME=/c/baritone/jdk21/jdk-21.0.11+10 ./gradlew :compileJava`
+
+### Оставшиеся кластеры в `main`
+| Подсистема | Файлы | Характер |
+|---|---|---|
+| Рендеринг | IRenderer(40), PathRenderer(10), GuiClick(10), SelectionRenderer(4) | новый render pipeline, самый объёмный |
+| Схематики/NBT | Litematica(32), Sponge(16), MCEdit(14), DefaultFormats(10) | NBT-геттеры теперь возвращают `Optional` |
+| Ввод | PlayerMovementInput(32) | `Input` → `ClientInput` |
+| Элитра | ElytraBehavior(24) | data components (фейерверки) |
+| Инструменты | ToolSet(22) | `DiggerItem`/`TieredItem` удалены → `ToolMaterial` |
+| Движение | MovementHelper(22) | `Material` удалён, `isPathfindable` |
+
+---
+
+## ⚠️ КАРТА ПЕРЕИМЕНОВАНИЙ 1.19.4 → 1.21.11 (проверено по jar)
+
+Главное открытие: **Mojang переименовал `ResourceLocation` → `Identifier`** в официальных
+маппингах. Ниже — всё, что подтверждено `javap` по реальному ремапнутому jar.
+
+| Было (1.19.4) | Стало (1.21.11) |
+|---|---|
+| `net.minecraft.resources.ResourceLocation` | `net.minecraft.resources.Identifier` |
+| `new ResourceLocation(s)` | `Identifier.parse(s)` / `withDefaultNamespace(s)` |
+| `Registry.get(id)` | `Registry.getValue(id)` |
+| `Entity.level` (поле) | `Entity.level()` |
+| `Entity.isOnGround()` | `Entity.onGround()` |
+| `getMinBuildHeight()` / `getMaxBuildHeight()` | `getMinY()` / `getMaxY()` |
+| `Direction.getNormal()` | `Direction.getUnitVec3i()` |
+| `new ClickEvent(Action.RUN_COMMAND, s)` | `new ClickEvent.RunCommand(s)` |
+| `new HoverEvent(Action.SHOW_TEXT, c)` | `new HoverEvent.ShowText(c)` |
+| `Inventory.selected` (поле) | `getSelectedSlot()` / `setSelectedSlot(i)` |
+| `Inventory.items` (поле) | `getNonEquipmentItems()` |
+| `ToastComponent` | `ToastManager` |
+| `Minecraft.getToasts()` | `Minecraft.getToastManager()` |
+| `Toast.render(PoseStack, ToastComponent, long)` | `update(...)` + `getWantedVisibility()` + `render(GuiGraphics, Font, long)` |
+| `GuiGraphics.blit(...)` | `blitSprite(RenderPipelines.GUI_TEXTURED, id, ...)` |
+| `com.mojang.blaze3d.platform.GlStateManager` | `com.mojang.blaze3d.opengl.GlStateManager` |
+| `monster.Spider` / `monster.ZombifiedPiglin` | `monster.spider.Spider` / `monster.zombie.ZombifiedPiglin` |
+| `chunk.ChunkStatus` | `chunk.status.ChunkStatus` |
+| `LootTables` / `PredicateManager` | `ReloadableServerRegistries.Holder` |
+| `Block.getLootTable()` → `Identifier` | → `Optional<ResourceKey<LootTable>>` |
+| `LootContext.Builder` | `LootParams.Builder` |
+| `Level` конструктор | потерял параметр `ChunkProgressListener` |
+| `ServerLevel` конструктор | без `ChunkProgressListener`, добавлен `RandomSequences` |
+| `world.level.material.Material` | **удалён** (нет замены; `canBeReplaced()`, `getFluidState()`) |
+| `DiggerItem`/`PickaxeItem`/`SwordItem`/`TieredItem` | **удалены** → `ToolMaterial` + компоненты |
+| `ItemStack.getTagElement(...)` | компоненты: `stack.get(DataComponents.X)` |
+| `javax.annotation.*` | больше не транзитивно → нужен `jsr305` |
+
+---
+
 > Поэтапный план миграции. Отмечай пункты `[x]` по мере выполнения.
 > Цель: рабочая Fabric-сборка под Minecraft **1.21.11**, Java **21**.
 > Скоуп: **только Fabric**. Forge/NeoForge не трогаем (Forge под 1.21 нет; NeoForge — отдельная история, вне задачи).
