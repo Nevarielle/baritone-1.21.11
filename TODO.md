@@ -10,11 +10,22 @@
 |---|---|
 | Тулчейн (Gradle 8.12, unimined 1.4.1, JDK 21) | ✅ работает |
 | `buildSrc` | ✅ компилируется |
-| sourceset `api` | ✅ **компилируется чисто** |
+| sourceset `api` | ✅ компилируется |
 | sourceset `schematica_api` | ✅ компилируется |
-| sourceset `main` | 🔧 ~151 ошибка (см. ниже) |
-| sourceset `launch` (миксины) | ⏳ не начат |
-| Сборка jar / тест в игре | ⏳ не начат |
+| sourceset `main` | ✅ компилируется |
+| sourceset `launch` (миксины) | ✅ компилируется, все 17 миксинов разрешаются |
+| **Сборка jar** | ✅ **`fabric/build/libs/baritone-fabric-1.9.5.jar`** |
+| Тест в игре | ⏳ ожидает проверки |
+
+Сборка jar:
+`JAVA_HOME=/c/baritone/jdk21/jdk-21.0.11+10 ./gradlew :fabric:remapJar`
+
+### Известные пробелы (помечены TODO в коде)
+1. **`ignoreDepth`** — путь/цели не рисуются сквозь стены. Depth-тест зашит в `RenderPipeline`; нужен свой пайплайн с `NO_DEPTH_TEST`.
+2. **Маяк цели** (`renderGoalXZBeacon`) — отключён: `renderBeaconBeam` заменён на `submitBeaconBeam` с отложенным `SubmitNodeCollector`. Цель рисуется рамкой.
+3. **`Screen.passEvents`** — поле удалено, redirect убран: ввод при открытом экране во время патинга требует другого хука.
+4. **Parchment** — отключён (только имена параметров).
+5. **ProGuard/`createDist`** — не проверялся (нужен для финального обфусцированного дистрибутива).
 
 **JDK 21** лежит в `c:\baritone\jdk21\jdk-21.0.11+10` (портативный Temurin, вне репозитория).
 Сборка: `JAVA_HOME=/c/baritone/jdk21/jdk-21.0.11+10 ./gradlew :compileJava`
