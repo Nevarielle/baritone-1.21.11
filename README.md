@@ -17,6 +17,14 @@ ported from **1.19.4** to **Minecraft 1.21.11** on **Fabric**.
 
 ---
 
+## ⬇️ Download
+
+[![Download latest](https://img.shields.io/badge/Download-latest%20.jar-brightgreen?style=for-the-badge)](https://github.com/Nevarielle/baritone-1.21.11/releases/latest)
+
+Get the jar from the **[Releases page](https://github.com/Nevarielle/baritone-1.21.11/releases/latest)**, drop `baritone-fabric-1.21.11.jar` into your Minecraft **1.21.11** Fabric `mods/` folder, launch, then type `#goto 1000 500` in chat.
+
+---
+
 ## What this fork is
 
 The goal was simply to get Baritone running on Minecraft 1.21.11 with Fabric.
