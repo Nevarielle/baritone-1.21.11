@@ -13,6 +13,8 @@ ported from **1.19.4** to **Minecraft 1.21.11** on **Fabric**.
 ![Java](https://img.shields.io/badge/Java-21-orange.svg)
 ![License](https://img.shields.io/badge/license-LGPL--3.0-green.svg)
 
+*Vibe-coded with **Claude Opus** — ultracode, xhigh reasoning effort + workflows.*
+
 ---
 
 ## What this fork is
@@ -21,7 +23,7 @@ The goal was simply to get Baritone running on Minecraft 1.21.11 with Fabric.
 
 **Working:**
 - Builds a Fabric jar (`fabric/build/libs/baritone-fabric-1.9.5.jar`).
-- Verified in-game: `#goto`, `#explore`, `#mine` work and the path renders correctly.
+- Verified in-game: `#goto`, `#explore`, `#mine`, `#tunnel` work and the path renders correctly.
 
 **Known limitations** (see [`TODO.md`](TODO.md) for details):
 - Path/goal is **not drawn through walls** yet (depth test is baked into the new render pipeline).
@@ -53,6 +55,7 @@ Same chat commands as upstream Baritone:
 
 - `#goto 1000 500` — walk to x=1000 z=500
 - `#mine diamond_ore` — mine diamond ore
+- `#tunnel` — dig a tunnel in the direction you're facing
 - `#stop` — stop
 
 Full command reference and settings are in the original docs:
